@@ -17,8 +17,17 @@ class AlpacaGame {
         this.highScoreElement = document.getElementById('high-score');
         this.alpacaElement = document.getElementById('alpaca');
 
+        // Sound Effects
+        this.bgm = new Audio('sounds/bgm.mp3');
+        this.bgm.loop = true;
+        this.correctSound = new Audio('sounds/correct.mp3');
+        this.wrongSound = new Audio('sounds/wrong.mp3');
+
         // Event Listeners
-        this.startButton.addEventListener('click', () => this.startGame());
+        this.startButton.addEventListener('click', () => {
+            this.startGame();
+            this.playBGM();
+        });
         this.submitButton.addEventListener('click', () => this.checkGuess());
         this.newGameButton.addEventListener('click', () => this.startGame());
         this.guessInput.addEventListener('keypress', (e) => {
@@ -52,6 +61,7 @@ class AlpacaGame {
         if (isNaN(guess) || guess < 1 || guess > 100) {
             this.setMessage('1부터 100 사이의 숫자를 입력하세요!');
             this.shakeAlpaca();
+            this.playSound(this.wrongSound);
             return;
         }
 
@@ -65,6 +75,7 @@ class AlpacaGame {
                 '더 큰 숫자예요! ⬆️' : '더 작은 숫자예요! ⬇️';
             this.setMessage(message);
             this.shakeAlpaca();
+            this.playSound(this.wrongSound);
         }
 
         this.guessInput.value = '';
@@ -76,6 +87,8 @@ class AlpacaGame {
         this.setMessage('🎉 정답입니다! 🎉');
         this.alpacaElement.textContent = '🦙✨';
         this.newGameButton.classList.remove('hidden');
+        this.playSound(this.correctSound);
+        this.stopBGM();
         
         if (this.highScore === '-' || this.attempts < this.highScore) {
             this.highScore = this.attempts;
@@ -101,6 +114,20 @@ class AlpacaGame {
         setTimeout(() => {
             this.alpacaElement.classList.remove('shake');
         }, 500);
+    }
+
+    playBGM() {
+        this.bgm.play().catch(e => console.log('BGM autoplay prevented'));
+    }
+
+    stopBGM() {
+        this.bgm.pause();
+        this.bgm.currentTime = 0;
+    }
+
+    playSound(sound) {
+        sound.currentTime = 0;
+        sound.play().catch(e => console.log('Sound play prevented'));
     }
 }
 
