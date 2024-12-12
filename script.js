@@ -4,6 +4,7 @@ class AlpacaGame {
         this.attempts = 0;
         this.highScore = localStorage.getItem('highScore') || '-';
         this.gameActive = false;
+        this.isMuted = localStorage.getItem('isMuted') === 'true';
 
         // DOM Elements
         this.startScreen = document.getElementById('start-screen');
@@ -16,26 +17,29 @@ class AlpacaGame {
         this.attemptCount = document.getElementById('attempt-count');
         this.highScoreElement = document.getElementById('high-score');
         this.alpacaElement = document.getElementById('alpaca');
+        this.soundButton = document.getElementById('toggle-sound');
 
         // Sound Effects
-        this.bgm = new Audio('sounds/bgm.mp3');
+        this.bgm = new Audio('https://github.com/alparkha/alparkha-number-game/raw/main/sounds/bgm.mp3');
         this.bgm.loop = true;
-        this.correctSound = new Audio('sounds/correct.mp3');
-        this.wrongSound = new Audio('sounds/wrong.mp3');
+        this.correctSound = new Audio('https://github.com/alparkha/alparkha-number-game/raw/main/sounds/correct.mp3');
+        this.wrongSound = new Audio('https://github.com/alparkha/alparkha-number-game/raw/main/sounds/wrong.mp3');
 
         // Event Listeners
         this.startButton.addEventListener('click', () => {
             this.startGame();
-            this.playBGM();
+            if (!this.isMuted) this.playBGM();
         });
         this.submitButton.addEventListener('click', () => this.checkGuess());
         this.newGameButton.addEventListener('click', () => this.startGame());
         this.guessInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') this.checkGuess();
         });
+        this.soundButton.addEventListener('click', () => this.toggleSound());
 
         // Initialize
         this.updateHighScore();
+        this.updateSoundButton();
     }
 
     startGame() {
@@ -70,6 +74,7 @@ class AlpacaGame {
 
         if (guess === this.targetNumber) {
             this.gameWon();
+            this.playSound(this.correctSound);
         } else {
             const message = guess < this.targetNumber ? 
                 '더 큰 숫자예요! ⬆️' : '더 작은 숫자예요! ⬇️';
@@ -87,13 +92,54 @@ class AlpacaGame {
         this.setMessage('🎉 정답입니다! 🎉');
         this.alpacaElement.textContent = '🦙✨';
         this.newGameButton.classList.remove('hidden');
-        this.playSound(this.correctSound);
-        this.stopBGM();
         
         if (this.highScore === '-' || this.attempts < this.highScore) {
             this.highScore = this.attempts;
             localStorage.setItem('highScore', this.attempts);
             this.updateHighScore();
+        }
+    }
+
+    toggleSound() {
+        this.isMuted = !this.isMuted;
+        localStorage.setItem('isMuted', this.isMuted);
+        
+        if (this.isMuted) {
+            this.stopBGM();
+            this.soundButton.textContent = '🔈';
+            this.soundButton.classList.add('muted');
+        } else {
+            if (this.gameActive) this.playBGM();
+            this.soundButton.textContent = '🔊';
+            this.soundButton.classList.remove('muted');
+        }
+    }
+
+    updateSoundButton() {
+        if (this.isMuted) {
+            this.soundButton.textContent = '🔈';
+            this.soundButton.classList.add('muted');
+        } else {
+            this.soundButton.textContent = '🔊';
+            this.soundButton.classList.remove('muted');
+        }
+    }
+
+    playBGM() {
+        if (!this.isMuted) {
+            this.bgm.play().catch(e => console.log('BGM autoplay prevented'));
+        }
+    }
+
+    stopBGM() {
+        this.bgm.pause();
+        this.bgm.currentTime = 0;
+    }
+
+    playSound(sound) {
+        if (!this.isMuted) {
+            sound.currentTime = 0;
+            sound.play().catch(e => console.log('Sound play prevented'));
         }
     }
 
@@ -114,20 +160,6 @@ class AlpacaGame {
         setTimeout(() => {
             this.alpacaElement.classList.remove('shake');
         }, 500);
-    }
-
-    playBGM() {
-        this.bgm.play().catch(e => console.log('BGM autoplay prevented'));
-    }
-
-    stopBGM() {
-        this.bgm.pause();
-        this.bgm.currentTime = 0;
-    }
-
-    playSound(sound) {
-        sound.currentTime = 0;
-        sound.play().catch(e => console.log('Sound play prevented'));
     }
 }
 

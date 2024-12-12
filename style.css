@@ -108,6 +108,30 @@ input {
     75% { transform: translateX(5px); }
 }
 
+#sound-control {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+}
+
+.sound-button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 5px;
+    transition: transform 0.2s;
+}
+
+.sound-button:hover {
+    transform: scale(1.1);
+}
+
+.sound-button.muted {
+    opacity: 0.5;
+}
+
 @media (max-width: 480px) {
     #game-container {
         padding: 1rem;
