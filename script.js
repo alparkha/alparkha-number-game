@@ -20,10 +20,10 @@ class AlpacaGame {
         this.soundButton = document.getElementById('toggle-sound');
 
         // Sound Effects
-        this.bgm = new Audio('https://github.com/alparkha/alparkha-number-game/raw/main/sounds/bgm.mp3');
+        this.bgm = new Audio('https://raw.githubusercontent.com/alparkha/alparkha-number-game/main/sounds/bgm.mp3');
         this.bgm.loop = true;
-        this.correctSound = new Audio('https://github.com/alparkha/alparkha-number-game/raw/main/sounds/correct.mp3');
-        this.wrongSound = new Audio('https://github.com/alparkha/alparkha-number-game/raw/main/sounds/wrong.mp3');
+        this.correctSound = new Audio('https://raw.githubusercontent.com/alparkha/alparkha-number-game/main/sounds/correct.mp3');
+        this.wrongSound = new Audio('https://raw.githubusercontent.com/alparkha/alparkha-number-game/main/sounds/wrong.mp3');
 
         // Event Listeners
         this.startButton.addEventListener('click', () => {
