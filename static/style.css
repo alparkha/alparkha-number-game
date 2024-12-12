@@ -1,0 +1,177 @@
+:root {
+    --main-bg-color: rgb(200, 255, 200);
+    --button-color: #4CAF50;
+    --button-hover-color: #45a049;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Gaegu', cursive;
+    background-color: var(--main-bg-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+#game-container {
+    max-width: 800px;
+    width: 90%;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+.alpaca {
+    font-size: 5rem;
+    margin: 2rem 0;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+.thinking {
+    animation: thinking 1s infinite;
+}
+
+@keyframes thinking {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-10px) rotate(-5deg);
+    }
+    75% {
+        transform: translateY(-10px) rotate(5deg);
+    }
+}
+
+.happy {
+    animation: happy 0.5s infinite;
+}
+
+@keyframes happy {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+.description {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin: 2rem 0;
+    color: #444;
+}
+
+.game-info {
+    margin: 1rem 0;
+    font-size: 1.2rem;
+}
+
+.input-container {
+    margin: 2rem 0;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+input[type="number"] {
+    padding: 0.8rem;
+    font-size: 1.2rem;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    width: 200px;
+    font-family: 'Gaegu', cursive;
+}
+
+.game-button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1.2rem;
+    background-color: var(--button-color);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: 'Gaegu', cursive;
+}
+
+.game-button:hover {
+    background-color: var(--button-hover-color);
+}
+
+#start-button {
+    font-size: 1.5rem;
+    padding: 1rem 2rem;
+    margin-top: 2rem;
+}
+
+.message {
+    font-size: 1.3rem;
+    margin: 1rem 0;
+    min-height: 2em;
+    color: #444;
+}
+
+.button-container {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.high-score, .attempts {
+    margin: 0.5rem 0;
+    font-size: 1.2rem;
+    color: #444;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 600px) {
+    #game-container {
+        width: 95%;
+        padding: 1rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .alpaca {
+        font-size: 4rem;
+    }
+
+    .input-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .button-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .game-button {
+        width: 100%;
+        max-width: 300px;
+    }
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🦙 알파카 숫자 맞추기 🦙</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="game-container">
+        <!-- 시작 화면 -->
+        <div id="start-screen" class="screen">
+            <h1>🦙 알파카 숫자 맞추기 🦙</h1>
+            <div id="start-alpaca" class="alpaca">🦙</div>
+            <div class="description">
+                귀여운 알파카들이 초원에서 놀고 있어요!<br>
+                알파카가 몇 마리 있는지 맞춰보세요! (1-100마리)<br><br>
+                🎮 게임 방법<br>
+                - 숫자를 입력하고 찾아보기를 누르세요<br>
+                - 알파카가 힌트를 줄 거예요<br>
+                - 최대한 적은 횟수로 맞춰보세요!
+            </div>
+            {% if high_score != float('inf') %}
+            <div class="high-score">🏆 최고 기록: {{ high_score }}번 만에 찾음</div>
+            {% endif %}
+            <button id="start-button" class="game-button">게임 시작하기 🎮</button>
+        </div>
+
+        <!-- 게임 화면 -->
+        <div id="game-screen" class="screen" style="display: none;">
+            <h1>🦙 알파카 숫자 맞추기 🦙</h1>
+            <div id="game-alpaca" class="alpaca">🦙</div>
+            <div class="game-info">
+                <div class="high-score">🏆 최고 기록: <span id="high-score">{{ high_score }}</span>번 만에 찾음</div>
+                <div class="attempts">🔍 시도 횟수: <span id="attempts">0</span>번</div>
+            </div>
+            <div class="input-container">
+                <input type="number" id="guess-input" placeholder="알파카가 몇 마리일까요?" min="1" max="100">
+                <button id="guess-button" class="game-button">찾아보기 🔍</button>
+            </div>
+            <div id="result-message" class="message"></div>
+            <div class="button-container">
+                <button id="new-game-button" class="game-button">새로운 초원으로 가기 🦙</button>
+                <button id="menu-button" class="game-button">메인 메뉴로 돌아가기 🏠</button>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
