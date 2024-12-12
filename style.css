@@ -1,0 +1,123 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Gaegu', cursive;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #c2e59c, #64b3f4);
+}
+
+#game-container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 90%;
+    width: 400px;
+}
+
+.screen {
+    transition: all 0.3s ease;
+}
+
+.hidden {
+    display: none;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+p {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    color: #666;
+}
+
+button {
+    background: #64b3f4;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: #4a90da;
+}
+
+#alpaca {
+    font-size: 5rem;
+    margin: 1rem 0;
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+#message {
+    font-size: 1.2rem;
+    margin: 1rem 0;
+    color: #333;
+    min-height: 3rem;
+}
+
+#input-container {
+    margin: 1rem 0;
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+input {
+    padding: 0.5rem;
+    font-size: 1.1rem;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    width: 150px;
+    text-align: center;
+}
+
+#attempts, #high-score-display {
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    color: #666;
+}
+
+.shake {
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+@media (max-width: 480px) {
+    #game-container {
+        padding: 1rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    #alpaca {
+        font-size: 4rem;
+    }
+}

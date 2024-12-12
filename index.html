@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>알파카 숫자 맞추기 게임</title>
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <div id="start-screen" class="screen">
+            <h1>🦙 알파카 숫자 맞추기 게임 🦙</h1>
+            <p>1부터 100 사이의 숫자를 맞춰보세요!</p>
+            <button id="start-button">게임 시작</button>
+            <div id="high-score-display">최고 기록: <span id="high-score">-</span>회</div>
+        </div>
+
+        <div id="game-screen" class="screen hidden">
+            <div id="alpaca">🦙</div>
+            <div id="message">1부터 100 사이의 숫자를 입력하세요</div>
+            <div id="input-container">
+                <input type="number" id="guess-input" min="1" max="100" placeholder="숫자를 입력하세요">
+                <button id="submit-guess">확인</button>
+            </div>
+            <div id="attempts">시도 횟수: <span id="attempt-count">0</span></div>
+            <button id="new-game" class="hidden">새 게임</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
