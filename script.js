@@ -20,15 +20,26 @@ class AlpacaGame {
         this.soundButton = document.getElementById('toggle-sound');
 
         // Sound Effects
-        this.bgm = new Audio('https://raw.githubusercontent.com/alparkha/alparkha-number-game/main/sounds/bgm.mp3');
-        this.bgm.loop = true;
-        this.correctSound = new Audio('https://raw.githubusercontent.com/alparkha/alparkha-number-game/main/sounds/correct.mp3');
-        this.wrongSound = new Audio('https://raw.githubusercontent.com/alparkha/alparkha-number-game/main/sounds/wrong.mp3');
+        this.sounds = {
+            bgm: 'https://cdn.jsdelivr.net/gh/alparkha/alparkha-number-game@main/sounds/bgm.mp3',
+            correct: 'https://cdn.jsdelivr.net/gh/alparkha/alparkha-number-game@main/sounds/correct.mp3',
+            wrong: 'https://cdn.jsdelivr.net/gh/alparkha/alparkha-number-game@main/sounds/wrong.mp3'
+        };
+        
+        this.audioElements = {};
+        this.soundsLoaded = false;
 
         // Event Listeners
         this.startButton.addEventListener('click', () => {
-            this.startGame();
-            if (!this.isMuted) this.playBGM();
+            if (!this.soundsLoaded) {
+                this.loadSounds().then(() => {
+                    this.startGame();
+                    if (!this.isMuted) this.playBGM();
+                });
+            } else {
+                this.startGame();
+                if (!this.isMuted) this.playBGM();
+            }
         });
         this.submitButton.addEventListener('click', () => this.checkGuess());
         this.newGameButton.addEventListener('click', () => this.startGame());
@@ -40,6 +51,24 @@ class AlpacaGame {
         // Initialize
         this.updateHighScore();
         this.updateSoundButton();
+    }
+
+    async loadSounds() {
+        try {
+            for (const [key, url] of Object.entries(this.sounds)) {
+                const audio = new Audio();
+                audio.src = url;
+                if (key === 'bgm') {
+                    audio.loop = true;
+                }
+                await audio.load();
+                this.audioElements[key] = audio;
+            }
+            this.soundsLoaded = true;
+            console.log('Sounds loaded successfully');
+        } catch (error) {
+            console.error('Error loading sounds:', error);
+        }
     }
 
     startGame() {
@@ -65,7 +94,7 @@ class AlpacaGame {
         if (isNaN(guess) || guess < 1 || guess > 100) {
             this.setMessage('1부터 100 사이의 숫자를 입력하세요!');
             this.shakeAlpaca();
-            this.playSound(this.wrongSound);
+            this.playSound('wrong');
             return;
         }
 
@@ -74,13 +103,13 @@ class AlpacaGame {
 
         if (guess === this.targetNumber) {
             this.gameWon();
-            this.playSound(this.correctSound);
+            this.playSound('correct');
         } else {
             const message = guess < this.targetNumber ? 
                 '더 큰 숫자예요! ⬆️' : '더 작은 숫자예요! ⬇️';
             this.setMessage(message);
             this.shakeAlpaca();
-            this.playSound(this.wrongSound);
+            this.playSound('wrong');
         }
 
         this.guessInput.value = '';
@@ -126,20 +155,25 @@ class AlpacaGame {
     }
 
     playBGM() {
-        if (!this.isMuted) {
-            this.bgm.play().catch(e => console.log('BGM autoplay prevented'));
+        if (!this.isMuted && this.soundsLoaded) {
+            this.audioElements.bgm?.play().catch(e => console.log('BGM autoplay prevented'));
         }
     }
 
     stopBGM() {
-        this.bgm.pause();
-        this.bgm.currentTime = 0;
+        if (this.soundsLoaded) {
+            this.audioElements.bgm?.pause();
+            if (this.audioElements.bgm) {
+                this.audioElements.bgm.currentTime = 0;
+            }
+        }
     }
 
-    playSound(sound) {
-        if (!this.isMuted) {
+    playSound(soundName) {
+        if (!this.isMuted && this.soundsLoaded && this.audioElements[soundName]) {
+            const sound = this.audioElements[soundName];
             sound.currentTime = 0;
-            sound.play().catch(e => console.log('Sound play prevented'));
+            sound.play().catch(e => console.log(`${soundName} sound play prevented`));
         }
     }
 
